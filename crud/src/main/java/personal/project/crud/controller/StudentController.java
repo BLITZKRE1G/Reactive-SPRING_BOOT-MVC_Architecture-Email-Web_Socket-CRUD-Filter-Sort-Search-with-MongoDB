@@ -1,9 +1,11 @@
-package personal.project.crud.controller;
+package personal.project.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import personal.project.crud.model.Student;
-import personal.project.crud.service.StudentService;
+import personal.project.rest.filter.StudentFilter;
+import personal.project.rest.model.Student;
+import personal.project.rest.page.PaginatedStudent;
+import personal.project.rest.service.StudentService;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -14,23 +16,28 @@ public class StudentController {
     @Autowired
     StudentService service;
 
-    @PostMapping(value = "/add")
-    public Mono<Student> addStudentDetails(@RequestBody Student student){
-        return service.createStudent(student);
-    }
-
     @GetMapping(value = "/all")
-    public Flux<Student> getAllStudentDetails(){
+    public Flux<Student> showAllStudents(){
         return service.fetchAllStudents();
     }
 
-    @GetMapping(value = "/{_id}")
-    public Mono<Student> getStudentDetails(@PathVariable String _id){
-        return service.fetchStudent(_id);
+    @GetMapping(value = "/find/{_id}")
+    public Mono<Student> showStudentById(@PathVariable String _id){
+        return service.fetchById(_id);
+    }
+
+    @PostMapping(value = "/add")
+    public Mono<Student> addNewStudent(@RequestParam Student student){
+        return service.saveStudentDetails(student);
     }
 
     @PutMapping(value = "/update")
-    public Mono<Student> updateStudentDetails(@RequestBody Student student){
-        return service.updateStudent(student);
+    public Mono<Student> updateStudentDetails(@RequestParam Student student){
+        return service.updateStudentDetails(student);
+    }
+
+    @GetMapping(value = "/filter")
+    public Mono<PaginatedStudent> filterStudent(@RequestParam StudentFilter studentFilter){
+        return service.filterStudentsData(studentFilter);
     }
 }
