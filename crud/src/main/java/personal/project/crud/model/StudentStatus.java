@@ -1,4 +1,4 @@
-package personal.project.rest.model;
+package personal.project.crud.model;
 
 public enum StudentStatus {
     ADMIT("Student Enrolled in the University."),
