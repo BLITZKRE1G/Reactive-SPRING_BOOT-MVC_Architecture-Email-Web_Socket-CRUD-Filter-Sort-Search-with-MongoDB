@@ -1,4 +1,4 @@
-package personal.project.rest.filter;
+package personal.project.crud.filter;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,8 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StudentFilter {
-    private String department, academicYear;
-    private List<String> status;
+    private String name, dept;
+    private LocalDate enrollmentDateLessThan;
+    private LocalDate enrollmentDateGreaterThan;
 
     //Searching
     private String searchTerm;
@@ -22,7 +23,6 @@ public class StudentFilter {
     private Integer page;
     private Integer count;
 
-    //Sorting
     private List<String> sortValue;
     private List<Direction> sortOrder;
 }
