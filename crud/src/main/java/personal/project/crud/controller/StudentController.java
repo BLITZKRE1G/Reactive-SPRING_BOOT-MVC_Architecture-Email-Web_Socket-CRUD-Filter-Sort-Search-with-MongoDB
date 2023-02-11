@@ -1,11 +1,11 @@
-package personal.project.rest.controller;
+package personal.project.crud.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import personal.project.rest.filter.StudentFilter;
-import personal.project.rest.model.Student;
-import personal.project.rest.page.PaginatedStudent;
-import personal.project.rest.service.StudentService;
+import personal.project.crud.filter.StudentFilter;
+import personal.project.crud.model.Student;
+import personal.project.crud.page.PaginatedStudent;
+import personal.project.crud.service.StudentService;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -16,28 +16,28 @@ public class StudentController {
     @Autowired
     StudentService service;
 
+    @PostMapping(value = "/add")
+    public Mono<Student> addStudentDetails(@RequestBody Student student){
+        return service.createStudent(student);
+    }
+
     @GetMapping(value = "/all")
-    public Flux<Student> showAllStudents(){
+    public Flux<Student> getAllStudentDetails(){
         return service.fetchAllStudents();
     }
 
-    @GetMapping(value = "/find/{_id}")
-    public Mono<Student> showStudentById(@PathVariable String _id){
-        return service.fetchById(_id);
-    }
-
-    @PostMapping(value = "/add")
-    public Mono<Student> addNewStudent(@RequestParam Student student){
-        return service.saveStudentDetails(student);
+    @GetMapping(value = "/{_id}")
+    public Mono<Student> getStudentDetails(@PathVariable String _id){
+        return service.fetchStudent(_id);
     }
 
     @PutMapping(value = "/update")
-    public Mono<Student> updateStudentDetails(@RequestParam Student student){
-        return service.updateStudentDetails(student);
+    public Mono<Student> updateStudentDetails(@RequestBody Student student){
+        return service.updateStudent(student);
     }
 
     @GetMapping(value = "/filter")
-    public Mono<PaginatedStudent> filterStudent(@RequestParam StudentFilter studentFilter){
-        return service.filterStudentsData(studentFilter);
+    public Mono<PaginatedStudent> filterStudentData(@RequestBody StudentFilter studentFilter){
+        return service.filterStudentData(studentFilter);
     }
 }
