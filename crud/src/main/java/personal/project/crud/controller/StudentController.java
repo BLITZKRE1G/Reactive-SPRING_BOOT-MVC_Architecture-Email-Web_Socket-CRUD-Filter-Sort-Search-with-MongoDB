@@ -2,7 +2,9 @@ package personal.project.crud.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import personal.project.crud.filter.StudentFilter;
 import personal.project.crud.model.Student;
+import personal.project.crud.page.PaginatedStudent;
 import personal.project.crud.service.StudentService;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -32,5 +34,10 @@ public class StudentController {
     @PutMapping(value = "/update")
     public Mono<Student> updateStudentDetails(@RequestBody Student student){
         return service.updateStudent(student);
+    }
+
+    @GetMapping(value = "/filter")
+    public Mono<PaginatedStudent> filterStudentData(@RequestBody StudentFilter studentFilter){
+        return service.filterStudentData(studentFilter);
     }
 }

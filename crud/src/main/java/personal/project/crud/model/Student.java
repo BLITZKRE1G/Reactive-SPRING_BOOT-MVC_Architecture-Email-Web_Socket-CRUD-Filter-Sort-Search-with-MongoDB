@@ -17,4 +17,5 @@ public class Student {
     private String _id;
     private String name, dept;
     private LocalDate enrollmentDate;
+    private StudentStatus status;
 }
