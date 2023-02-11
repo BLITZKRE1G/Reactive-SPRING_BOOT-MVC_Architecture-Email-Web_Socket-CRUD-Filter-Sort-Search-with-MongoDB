@@ -1,4 +1,4 @@
-package personal.project.crud.model;
+package personal.project.rest.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +15,7 @@ import java.time.LocalDate;
 public class Student {
     @Id
     private String _id;
-    private String name, dept;
+    private String name, department, academicYear;
     private LocalDate enrollmentDate;
+    private StudentStatus status;
 }
