@@ -16,6 +16,11 @@ public class StudentController {
     @Autowired
     StudentService service;
 
+    @GetMapping(value = "/")
+    public Mono<String> home(){
+        return service.atHome();
+    }
+
     @PostMapping(value = "/add")
     public Mono<Student> addStudentDetails(@RequestBody Student student){
         return service.createStudent(student);
