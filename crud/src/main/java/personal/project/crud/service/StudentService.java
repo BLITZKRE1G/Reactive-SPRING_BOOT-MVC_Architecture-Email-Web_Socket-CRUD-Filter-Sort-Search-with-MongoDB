@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import personal.project.crud.controller.WebSocketController;
 import personal.project.crud.exceptions.BAD_REQUEST_EXCEPTION;
 import personal.project.crud.filter.StudentFilter;
 import personal.project.crud.model.Student;
@@ -28,6 +29,14 @@ public class StudentService {
     @Autowired
     StudentFilterRepository studentFilterRepository;
 
+    @Autowired
+    WebSocketController webSocketController;
+
+    public Mono<String> atHome(){
+        webSocketController.WELCOME();
+        return Mono.just("Welcome to this Micro-Service");
+    }
+
     public Flux<Student> fetchAllStudents(){
         return studentRepository.findAll()
                 .flatMap(student -> {
@@ -48,6 +57,7 @@ public class StudentService {
         return studentRepository.save(student)
                 .map(studentResource -> {
                     log.info("Saved Resource: {}", studentResource);
+                    webSocketController.NEW(studentResource);
                     return student;
                 });
     }
@@ -58,6 +68,7 @@ public class StudentService {
                     throw new BAD_REQUEST_EXCEPTION("Student Does not exist in the Database!\nPlease Create a new Entry");
                 })).flatMap(oldStudentData -> {
                     log.info("Updated Resource Data from : {} to {}", oldStudentData, student);
+                    webSocketController.UPDATE(oldStudentData, student);
                     return studentRepository.save(student);
                 });
     }
